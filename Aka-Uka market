@@ -1,12 +1,154 @@
-- 👋 Hi, I’m @Abbasxan909
-- 👀 I’m interested in ...
-- 🌱 I’m currently learning ...
-- 💞️ I’m looking to collaborate on ...
-- 📫 How to reach me ...
-- 😄 Pronouns: ...
-- ⚡ Fun fact: ...
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aka-Uka Market</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header {
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            padding: 1rem;
+        }
+        header h1 {
+            margin: 0;
+        }
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin: 2rem 0;
+        }
+        .product {
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin: 1rem;
+            padding: 1rem;
+            width: 200px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .product img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+        }
+        .product input {
+            width: 100%;
+            padding: 0.5rem;
+            margin-top: 0.5rem;
+            margin-bottom: 1rem;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+        .product button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 0.5rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+        }
+        .product button:hover {
+            background-color: #45a049;
+        }
+        #addProductForm {
+            margin: 2rem;
+            padding: 1rem;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+        #addProductForm h2 {
+            margin-top: 0;
+        }
+        #addProductForm input {
+            width: 100%;
+            padding: 0.5rem;
+            margin: 0.5rem 0;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
 
-<!---
-Abbasxan909/Abbasxan909 is a ✨ special ✨ repository because its `README.md` (this file) appears on your GitHub profile.
-You can click the Preview link to take a look at your changes.
---->
+<header>
+    <h1>Aka-Uka Market</h1>
+</header>
+
+<div id="addProductForm">
+    <h2>Yangi Mahsulot Qo'shish</h2>
+    <input type="text" id="newProductName" placeholder="Mahsulot nomi">
+    <input type="text" id="newProductPrice" placeholder="Narxi ($)">
+    <input type="file" id="newProductImage">
+    <button onclick="addProduct()">Mahsulot Qo'shish</button>
+</div>
+
+<div class="container" id="productContainer">
+    <!-- Bu yerda mahsulotlar ko'rsatiladi -->
+</div>
+
+<script>
+    let productId = 0;
+
+    function addProduct() {
+        // Yangi mahsulot uchun malumotlar
+        const name = document.getElementById('newProductName').value;
+        const price = document.getElementById('newProductPrice').value;
+        const imageFile = document.getElementById('newProductImage').files[0];
+
+        if (!name || !price || !imageFile) {
+            alert("Iltimos, barcha maydonlarni to'ldiring!");
+            return;
+        }
+
+        // O'qilayotgan faylni o'qish
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const imgSrc = e.target.result;
+
+            // Yangi mahsulotni yaratish
+            const productContainer = document.getElementById('productContainer');
+            const productElement = document.createElement('div');
+            productElement.className = 'product';
+            productElement.id = 'product-' + productId;
+
+            productElement.innerHTML = `
+                <img src="${imgSrc}" alt="Mahsulot ${productId}">
+                <input type="text" value="${name}" id="productName-${productId}">
+                <input type="text" value="${price}" id="productPrice-${productId}">
+                <button onclick="saveProduct(${productId})">Saqlash</button>
+            `;
+
+            productContainer.appendChild(productElement);
+
+            // Formani tozalash
+            document.getElementById('newProductName').value = '';
+            document.getElementById('newProductPrice').value = '';
+            document.getElementById('newProductImage').value = '';
+
+            productId++;
+        };
+
+        reader.readAsDataURL(imageFile);
+    }
+
+    function saveProduct(id) {
+        const name = document.getElementById('productName-' + id).value;
+        const price = document.getElementById('productPrice-' + id).value;
+        alert(`Mahsulot ${id} muvaffaqiyatli saqlandi:\nNomi: ${name}\nNarxi: ${price}`);
+    }
+</script>
+
+</body>
+</html>
